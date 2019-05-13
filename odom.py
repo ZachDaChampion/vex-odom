@@ -48,8 +48,8 @@ class Odom:
 
         # mirror over applicable axes
         delta_x_primary *= -1 if dist_primary < 0 else 1
-        delta_y_primary *= -1 if dist_primary * theta.get('rad') > 0 else 1
-        delta_x_horizontal *= -1 if dist_horizontal_adjusted * theta.get('rad') > 0 else 1
+        delta_y_primary *= -1 if dist_primary * theta > 0 else 1
+        delta_x_horizontal *= -1 if dist_horizontal_adjusted * theta > 0 else 1
         delta_y_horizontal *= -1 if dist_horizontal_adjusted < 0 else 1
 
         # combine primary and horizontal measurements
@@ -98,13 +98,15 @@ class Odom:
         if delta.x != 0 or delta.y != 0:
             self.translation_dir = math.atan2(delta.y, delta.x)
 
-        # calculate linear velocity
-        raw_linear_vel = delta.get_dist(self.current_point) / delta_time
-        self.linear_vel = self.linear_vel * .5 + raw_linear_vel * .5
+        if delta_time > 0:
+            
+            # calculate linear velocity
+            raw_linear_vel = delta.get_dist(self.current_point) / delta_time
+            self.linear_vel = self.linear_vel * .5 + raw_linear_vel * .5
 
-        # calculate angular velocity
-        raw_angular_vel = theta / delta_time
-        self.angular_vel = self.angular_vel * .5 + raw_angular_vel * .5
+            # calculate angular velocity
+            raw_angular_vel = theta / delta_time
+            self.angular_vel = self.angular_vel * .5 + raw_angular_vel * .5
 
         # update state variables
         self.current_point.x = self.current_point.x + delta.x
@@ -121,6 +123,7 @@ steps = [
     (10 * Units.INCHES, 10 * Units.INCHES, 10 * Units.INCHES, 5 * Units.MS),
     (0 * Units.INCHES, 0 * Units.INCHES, -5 * Units.INCHES, 10 * Units.MS),
     (5 * Units.INCHES, 5 * Units.INCHES, 0 * Units.INCHES, 15 * Units.MS),
+    (5 * Units.INCHES, -5 * Units.INCHES, 0 * Units.INCHES, 20 * Units.MS),
 ]
 for step in steps:
     result = odom.step(
