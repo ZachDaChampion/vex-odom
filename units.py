@@ -15,12 +15,12 @@ class Unit:
         self.set(value, self.default_unit if unit == '' else unit)
 
     # set the stored value
-    def set(self, value=0, unit=default_unit):
-        self.value = value * self.conversions[unit]
+    def set(self, value=0, unit=''):
+        self.value = (value.get() if issubclass(type(value), Unit) else value) * self.conversions[self.default_unit if unit == '' else unit]
 
     # get the stored value
-    def get(self, unit=default_unit):
-        return self.value / self.conversions[unit]
+    def get(self, unit=''):
+        return self.value / self.conversions[self.default_unit if unit == '' else unit]
 
 
 # angle class, extends Unit
@@ -81,7 +81,7 @@ class AngularVel(Unit):
     value = 0
 
     # default unit
-    default_unit = 'rpm'
+    default_unit = 'rad/sec'
 
 
 # time class, extends Unit

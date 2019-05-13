@@ -4,20 +4,20 @@ from units import *
 # generic Point class
 class Point:
 
-    # position and orientation
+    # position and angle
     x = Distance()
     y = Distance()
-    orientation = Angle()
+    angle = Angle()
 
     # initialize
-    def __init__(self, x=0, y=0, orientation=0):
+    def __init__(self, x=0, y=0, angle=0):
         self.x = x if x is Distance else Distance(x)
         self.y = y if y is Distance else Distance(y)
-        self.orientation = orientation if orientation is Angle else Angle(y)
+        self.angle = angle if angle is Angle else Angle(angle)
 
     # get euclidian distance to other point
     def get_dist(self, p):
-        return ((self.x.get() - p.x.get()) ** 2.0 + (self.y.get() - p.y.get()) ** 2.0) ** .5
+        return Distance(((self.x.get() - p.x.get()) ** 2.0 + (self.y.get() - p.y.get()) ** 2.0) ** .5)
 
     # normalize vector
     def normalize(self, mag=1.0):

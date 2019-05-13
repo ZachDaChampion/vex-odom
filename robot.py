@@ -11,5 +11,5 @@ class Robot:
     # distance from center of rotation to primary tracking wheels
     primary_wheel_dist = Distance(8.0, 'in')
 
-    # distance from center of rotation to horizontal tracking wheel (positive in front, negative in back)
-    horizontal_wheel_dist = Distance(-6.0, 'in')
+    # distance from center of rotation to horizontal tracking wheel
+    horizontal_wheel_dist = Distance(6.0, 'in')
